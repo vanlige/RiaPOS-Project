@@ -1,0 +1,177 @@
+<div class="page-header">
+    <h3>
+        客户列表
+        <a href="/clients/create" class="btn btn-default">
+            <span class="glyphicon glyphicon-plus"></span>
+            新客户
+        </a>
+    </h3>
+</div>
+
+<!-- loading message  -->
+<div class="jumbotron text-center" ng-show="user.processing">
+    <span class="glyphicon glyphicon-repeat spinner"></span>
+    <p>加载中...</p>
+</div>
+
+
+
+<table class="table table-bordered table-striped table-condensed" ng-show="client.clients">
+    <p class="input-group col-lg-3">
+        <input type="text" class="form-control" ng-model="query" placeholder="搜索">
+    </p>
+    <thead>
+    <tr>
+        <th>姓名</th>
+        <th>手机</th>
+        <th>储值</th>
+        <th>积分</th>
+        <th>客户类型</th>
+        <th>公司</th>
+        <th>备注</th>
+        <th class="col-sm-2"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- loop over the users and create a table with ng-repeat -->
+    <tr ng-repeat="person in client.clients | filter:query">
+        <td>{{ person.name }}</td>
+        <td>{{ person.phone }}</td>
+        <td>{{ person.money }}</td>
+        <td>{{ person.point }}</td>
+        <td ng-if="!person.type"></td>
+        <td ng-if="person.type==1">零售</td>
+        <td ng-if="person.type==2">批发</td>
+        <td>{{ person.company }}</td>
+        <td>{{ person.comment }}</td>
+
+        <td class="col-sm-2">
+            <a data-target="#{{ person._id }}" data-toggle="modal" class="btn btn-success">查看</a>
+            <a ng-href="/clients/{{ person._id }}" class="btn btn-primary">编辑</a>
+            <a href="#" ng-click="client.deleteClient(person._id)" class="btn btn-danger">删除</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div ng-repeat="person in client.clients"  id="{{ person._id }}" class="modal fade">
+    <div  class="modal-dialog" style="width: 767px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{{ person.name }}的资料</h4>
+            </div>
+            <div class="modal-body">
+                    <form class="form-horizontal">
+                        <fieldset disabled>
+                        <div class="form-group has-feedback">
+                            <label class="col-lg-2 control-label">客户姓名</label>
+                            <div class="col-lg-4">
+                                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                                <input ng-model="person.name" type="text" class="form-control" >
+                            </div>
+                            <label class="col-lg-2  control-label">生日</label>
+                            <div class="col-lg-4 ">
+                                <div class="input-group date form_date"  data-date-format="MM dd" data-link-field="dtp_input2" data-link-format="mm-dd">
+                                    <input ng-model="person.birthday" class="form-control"  type="text">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                </div>
+                                <input type="hidden" id="dtp_input2" value="" />
+                            </div>
+                        </div>
+
+                    <div class="form-group has-feedback">
+
+                        <label class="col-lg-2 control-label">手机号码</label>
+                        <div class="col-lg-4">
+                            <span class="glyphicon glyphicon-earphone form-control-feedback"></span>
+                            <input  ng-model="person.phone" type="number" class="form-control" >
+                        </div>
+                        <label class="col-lg-2  control-label">性别</label>
+                        <div class="col-lg-4 ">
+
+                                <label class="control-label">
+                                    <input disabled="disabled" ng-model="person.sex" type="radio" value="female" name="options">女
+                                </label>
+                                <label class="control-label">
+                                    <input ng-model="person.sex" type="radio" value="male" name="options" >男
+                                </label>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <label class="col-lg-2 control-label">客户类别</label>
+                        <div class="col-lg-4" ng-controller="client_ngTypeSelect">
+                            <select  ng-options="value.id as value.title for value in vm.optionsData" ng-model="person.type"  class="form-control">
+
+                            </select>
+                        </div>
+                        <div ng-controller="client_ngLevelSelect" ng-if="person.type=='1'">
+                            <label class="col-lg-2  control-label">零售级别</label>
+                            <div class="col-lg-4 ">
+                                <select ng-model="person.rlevel" ng-options="value.id as value.title for value in vm.optionsData" class="form-control select select-default" data-toggle="select">
+
+                                </select>
+                            </div>
+                        </div>
+                        <div ng-controller="client_ngLevelSelect" ng-if="person.type=='2'">
+                            <label class="col-lg-2  control-label">批发级别</label>
+                            <div class="col-lg-4 ">
+                                <select ng-model="person.wlevel" ng-options="value.id as value.title for value in vm.optionsData" class="form-control select select-default" data-toggle="select">
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <label class="col-lg-2  control-label">储值金额</label>
+                        <div class="col-lg-4 ">
+                            <span class="glyphicon glyphicon-usd form-control-feedback"></span>
+                            <input ng-model="person.money" type="number" class="form-control" >
+                        </div>
+                        <label class="col-lg-2 control-label">积分</label>
+                        <div class="col-lg-4">
+                            <span class="glyphicon glyphicon-piggy-bank form-control-feedback"></span>
+                            <input ng-model="person.point" type="number" class="form-control" >
+                        </div>
+
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <label class="col-lg-2 control-label">公司</label>
+                        <div class="col-lg-4">
+                            <span class="glyphicon glyphicon-globe form-control-feedback"></span>
+                            <input ng-model="person.company" type="text" class="form-control" >
+                        </div>
+                        <label class="col-lg-2 control-label">联系人</label>
+                        <div class="col-lg-4">
+                            <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                            <input ng-model="person.contact" type="text" class="form-control" >
+                        </div>
+
+                    </div>
+
+                    <div class="form-group has-feedback">
+                        <label class="col-lg-2  control-label">地址</label>
+                        <div class="col-lg-4 ">
+                            <span class="glyphicon glyphicon-home form-control-feedback"></span>
+                            <input ng-model="person.address" type="text" class="form-control" >
+                        </div>
+                        <label class="col-lg-2 control-label">备注</label>
+                        <div class="col-lg-4">
+                            <input ng-model="person.comment" type="text" class="form-control" >
+                        </div>
+                    </div>
+                        </fieldset>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>

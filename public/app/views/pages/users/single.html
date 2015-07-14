@@ -1,0 +1,89 @@
+<div class="page-header col-lg-12">
+	<div class="col-lg-2">
+		<h3 ng-if="user.type == 'create'">创建新用户</h3>
+		<h3 ng-if="user.type == 'edit'">编辑用户</h3>
+	</div>
+	<div class="col-lg-6">
+		<div class="row show-hide-message " ng-show="user.message">
+			<div class="col-sm-12">
+				<div class="alert alert-info">
+					{{ user.message }}
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<form class="form-horizontal col-sm-12" ng-submit="user.saveUser()">
+
+	<div class="form-group has-feedback">
+		<label class="col-sm-1 control-label">用户名</label>
+
+		<div class="col-sm-4">
+			<div class="input-group ">
+				<input type="text" class="form-control"ng-model="user.userData.username" required>
+					<span class="input-group-addon">
+						<input type="checkbox"  >
+						失效
+					</span>
+			</div>
+		</div>
+	</div>
+	<div class="form-group has-feedback">
+		<label class="col-sm-1 control-label">密码</label>
+
+		<div class="col-sm-4">
+			<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+			<input type="password" class="form-control" ng-model="user.userData.password" required>
+		</div>
+	</div>
+	<div class="form-group has-feedback">
+		<label class="col-sm-1 control-label">姓名</label>
+
+		<div class="col-sm-4">
+			<span class="glyphicon glyphicon-user form-control-feedback"></span>
+			<input type="text" class="form-control"  ng-model="user.userData.name" required>
+		</div>
+	</div>
+	<div class="form-group has-feedback">
+		<label class="col-sm-1 control-label">职位</label>
+
+		<div class="col-sm-4">
+			<span class="glyphicon glyphicon-briefcase form-control-feedback"></span>
+			<input type="text" class="form-control" ng-model="user.userData.position">
+		</div>
+	</div>
+	<div class="form-group has-feedback">
+		<label class="col-sm-1 control-label">工号</label>
+
+		<div class="col-sm-4">
+			<span class="glyphicon glyphicon-paperclip form-control-feedback"></span>
+			<input type="text" class="form-control" ng-model="user.userData.number">
+		</div>
+	</div>
+	<div class="form-group has-feedback">
+		<label class="col-sm-1 control-label">手机</label>
+
+		<div class="col-sm-4">
+			<span class="glyphicon glyphicon-earphone form-control-feedback"></span>
+			<input type="text" class="form-control" ng-model="user.userData.phone" ng-maxlength="11">
+		</div>
+	</div>
+	<div class="form-group has-feedback">
+		<label class="col-sm-1 control-label">备注</label>
+		<div class="col-sm-4">
+			<input type="text" class="form-control" ng-model="user.userData.comment">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-sm-4 col-sm-offset-1">
+			<button type="submit" class="btn btn-success btn-lg btn-block" ng-if="user.type == 'create'">创建用户</button>
+			<button type="submit" class="btn btn-success btn-lg btn-block" ng-if="user.type == 'edit'">更新用户</button>
+		</div>
+	</div>
+</form>
+

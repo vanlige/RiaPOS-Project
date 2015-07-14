@@ -1,0 +1,37 @@
+<div class="page-header col-lg-12" >
+    <div class="col-lg-3">
+        <h3 ng-if="goodApplier.type == 'create'">创建新供应商</h3>
+        <h3 ng-if="goodApplier.type == 'edit'">编辑供应商</h3>
+    </div>
+    <div class="col-lg-6">
+        <div class="show-hide-message " ng-show="goodApplier.message">
+            <div class="alert alert-info">
+                {{ goodApplier.message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row col-md-6 col-md-offset-3 text-center">
+
+    <form class="form-horizontal" ng-submit="goodApplier.saveGoodApplier()">
+        <div class="form-group">
+            <label class="col-md-4 control-label">供应商编号</label>
+            <div class="col-md-8">
+                <input ng-model="goodApplier.goodApplierData.number" type="text" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label">供应商名称</label>
+            <div class="col-md-8">
+                <input ng-model="goodApplier.goodApplierData.name" type="text" class="form-control">
+            </div>
+        </div>
+        <button  ng-if="goodApplier.type == 'create'"  type="submit" class="btn btn-success btn-lg col-md-8 col-md-offset-4 ">保存</button>
+        <button  ng-if="goodApplier.type == 'edit'" type="submit" class="btn btn-success btn-lg col-md-8 col-md-offset-4">更新</button>
+
+    </form>
+</div>

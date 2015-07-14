@@ -1,0 +1,40 @@
+<div class="page-header">
+    <h3>
+        商品品牌列表
+        <a href="goodBrands/create" class="btn btn-default">
+            <span class="glyphicon glyphicon-plus"></span>
+            新品牌
+        </a>
+    </h3>
+</div>
+
+<div class="jumbotron text-center" ng-show="goodBrand.processing">
+    <span class="glyphicon glyphicon-repeat spinner"></span>
+    <p>加载中...</p>
+</div>
+
+
+<table class="table table-bordered table-striped table-condensed" ng-show="goodBrand.goodBrands">
+    <p class="input-group col-lg-3">
+        <input type="text" class="form-control" ng-model="query" placeholder="搜索">
+    </p>
+    <thead>
+    <tr>
+        <th>编号</th>
+        <th>名称</th>
+        <th class="col-sm-2"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- loop over the users and create a table with ng-repeat -->
+    <tr ng-repeat="thing in goodBrand.goodBrands | filter:query">
+        <td>{{ thing.number }}</td>
+        <td>{{ thing.name }}</td>
+
+        <td class="col-sm-2">
+            <a ng-href="/goodBrands/{{ thing._id }}" class="btn btn-primary">编辑</a>
+            <a href="#" ng-click="goodBrand.deleteGoodBrand(thing._id)" class="btn btn-danger">删除</a>
+        </td>
+    </tr>
+    </tbody>
+</table>

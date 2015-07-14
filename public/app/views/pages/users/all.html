@@ -1,0 +1,113 @@
+<div class="page-header">
+	<h3>
+		用户列表
+		<a href="/users/create" class="btn btn-default">
+			<span class="glyphicon glyphicon-plus"></span> 
+			新用户
+		</a>
+	</h3>
+</div>
+
+<!-- loading message  -->
+<div class="jumbotron text-center" ng-show="user.processing">
+	<span class="glyphicon glyphicon-repeat spinner"></span>
+	<p>加载中...</p>
+</div>
+
+
+
+<table class="table table-bordered table-striped table-condensed" ng-show="user.users">
+	<p class="input-group col-lg-3">
+		<input type="text" class="form-control" ng-model="query" placeholder="搜索">
+	</p>
+	<thead>
+		<tr>
+			<th>姓名</th>
+			<th>工号</th>
+			<th>手机</th>
+			<th>职位</th>
+			<th>用户名</th>
+			<th>备注</th>
+			<th class="col-sm-2"></th>
+		</tr>
+	</thead>
+	<tbody>
+		<!-- loop over the users and create a table with ng-repeat -->
+		<tr ng-repeat="person in user.users | filter:query">
+			<td>{{ person.name }}</td>
+			<td>{{ person.number }}</td>
+			<td>{{ person.phone }}</td>
+			<td>{{ person.position }}</td>
+			<td>{{ person.username }}</td>
+			<td>{{ person.comment }}</td>
+
+			<td class="col-sm-2">
+				<a data-target="#{{ person._id }}" data-toggle="modal" class="btn btn-success">查看</a>
+				<a ng-href="/users/{{ person._id }}" class="btn btn-danger">编辑</a>
+				<a href="#" ng-click="user.deleteUser(person._id)" class="btn btn-primary">删除</a>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<div ng-repeat="person in user.users"  id="{{ person._id }}" class="modal fade">
+	<div  class="modal-dialog" style="width: 767px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+						aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">{{ person.name }}的资料</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal" >
+					<div class="form-group has-feedback">
+						<label class="col-sm-2 control-label">用户名</label>
+						<div class="col-sm-4 ">
+							<div class="input-group ">
+								<input disabled type="text" class="form-control " ng-model="person.username">
+								<span class="input-group-addon">
+									<input disabled type="checkbox"  >
+									失效
+								</span>
+							</div>
+						</div>
+						<label class="col-sm-2 control-label">姓名</label>
+						<div class="col-sm-4">
+							<span class="glyphicon glyphicon-user form-control-feedback"></span>
+							<input disabled type="text" class="form-control"  ng-model="person.name">
+						</div>
+					</div>
+
+					<div class="form-group has-feedback">
+						<label class="col-sm-2 control-label">工号</label>
+						<div class="col-sm-4">
+							<span class="glyphicon glyphicon-paperclip form-control-feedback"></span>
+							<input disabled type="text" class="form-control" ng-model="person.number">
+						</div>
+						<label class="col-sm-2 control-label">职位</label>
+						<div class="col-sm-4">
+							<span class="glyphicon glyphicon-briefcase form-control-feedback"></span>
+							<input disabled type="text" class="form-control" ng-model="person.position">
+						</div>
+					</div>
+
+					<div class="form-group has-feedback">
+						<label class="col-sm-2 control-label">手机</label>
+						<div class="col-sm-4">
+							<span class="glyphicon glyphicon-earphone form-control-feedback"></span>
+							<input disabled type="text" class="form-control" ng-model="person.phone" ng-maxlength="11">
+						</div>
+						<label class="col-sm-2 control-label">备注</label>
+						<div class="col-sm-4">
+							<input disabled type="text" class="form-control" ng-model="person.comment">
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default btn-lg" data-dismiss="modal">关闭</button>
+			</div>
+		</div>
+	</div>
+</div>
+

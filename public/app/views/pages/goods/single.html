@@ -1,0 +1,161 @@
+<div class="page-header col-lg-12" >
+    <div class="col-lg-2">
+        <h3 ng-if="good.type == 'create'">创建新商品</h3>
+        <h3 ng-if="good.type == 'edit'">编辑商品</h3>
+    </div>
+    <div class="col-lg-6">
+        <div class="row show-hide-message " ng-show="good.message">
+            <div class="col-sm-12">
+                <div class="alert alert-info">
+                    {{ good.message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form class="form-horizontal" ng-submit="good.saveGood()">
+    <div class="col-lg-4">
+        <div class="form-group">
+            <label class="col-lg-4 control-label">商品编号</label>
+            <div class="col-lg-6">
+                <input ng-model="good.goodData.number" type="text" class="form-control" placeholder="留空可自动生成">
+            </div>
+            <div class="col-lg-2" >
+                <label class="checkbox" for="checkbox1">
+                    <input type="checkbox" value="" id="checkbox1">
+                    失效
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-4 control-label">商品名称</label>
+            <div class="col-lg-8">
+                <input ng-model="good.goodData.name" type="text" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-4 control-label">商品性质</label>
+            <div class="col-lg-8" ng-controller="good_ngTypeSelect" >
+                <select ng-model="good.goodData.type" ng-options="value.id as value.title for value in vm.optionsData_type" class="form-control select select-primary" data-toggle="select">
+                    <option value="">请选择</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-4 control-label">商品类别</label>
+            <div class="col-lg-8" ng-controller="good_ngCateSelect">
+                <select ng-model="good.goodData.category" ng-options="value.name as value.name for value in goodCates" class="form-control select select-primary" data-toggle="select">
+                    <option value="">请选择</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-4 control-label">商品品牌</label>
+            <div class="col-lg-8" ng-controller="good_ngBrandSelect">
+                <select ng-model="good.goodData.brand" ng-options="value.name as value.name for value in goodBrands" class="form-control select select-primary" data-toggle="select">
+                    <option value="">请选择</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-4 control-label">商品成本</label>
+            <div class="col-lg-8">
+                <input ng-model="good.goodData.cost" type="number" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-4 control-label">所属仓库</label>
+            <div class="col-lg-8" ng-controller="good_ngWarehouseSelect">
+                <select ng-model="good.goodData.warehouse" ng-options="value.id as value.title for value in vm.optionsData" class="form-control select select-primary" data-toggle="select">
+                    <option value="">请选择</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-4 control-label">数量</label>
+            <div class="col-lg-8">
+                <input ng-model="good.goodData.quantity" type="number" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-4 control-label">供应商</label>
+            <div class="col-lg-8" ng-controller="good_ngApplierSelect">
+                <select ng-model="good.goodData.applier" ng-options="value.name as value.name for value in goodAppliers" class="form-control select select-primary" data-toggle="select">
+                    <option value="">请选择</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-4 control-label">备注</label>
+            <div class="col-lg-8">
+                <input ng-model="good.goodData.comment" type="text" class="form-control">
+            </div>
+        </div>
+        <div class="input-group col-lg-12">
+            <div class="form-group">
+                <div class="col-lg-8 col-sm-offset-4">
+                    <button type="submit" class="btn btn-success btn-lg btn-block" ng-if="good.type == 'create'">创建商品</button>
+                    <button type="submit" class="btn btn-success btn-lg btn-block" ng-if="good.type == 'edit'">更新商品</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">条码设置</div>
+            <div class="panel-body">
+                <img class="img-responsive col-lg-3" src="assets/img/code.jpg">
+                <img class="img-responsive col-lg-3" src="assets/img/code.jpg">
+                <img class="img-responsive col-lg-3" src="assets/img/code.jpg">
+                <img class="img-responsive col-lg-3" src="assets/img/code.jpg">
+
+                <img class="img-responsive col-lg-3" src="assets/img/code.jpg">
+                <img class="img-responsive col-lg-3" src="assets/img/code.jpg">
+                <img class="img-responsive col-lg-3" src="assets/img/code.jpg">
+                <img class="img-responsive col-lg-3" src="assets/img/code.jpg">
+            </div>
+        </div>
+            <div class="panel panel-success">
+                <div class="panel-heading">商品分级售价</div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">一级售价</label>
+                        <div class="col-lg-2">
+                            <input ng-model="good.goodData.price1" type="number" class="form-control">
+                        </div>
+
+                        <label class="col-lg-2 control-label">二级售价</label>
+                        <div class="col-lg-2">
+                            <input ng-model="good.goodData.price2" type="number" class="form-control">
+                        </div>
+                        <label class="col-lg-2 control-label">三级售价</label>
+                        <div class="col-lg-2">
+                            <input ng-model="good.goodData.price3" type="number" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label">四级售价</label>
+                        <div class="col-lg-2">
+                            <input ng-model="good.goodData.price4" type="number" class="form-control">
+                        </div>
+                        <label class="col-lg-2 control-label">五级售价</label>
+                        <div class="col-lg-2">
+                            <input ng-model="good.goodData.price5" type="number" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</form>
+

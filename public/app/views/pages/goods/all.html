@@ -1,0 +1,200 @@
+<div class="page-header">
+    <h3>
+        商品列表
+        <a href="/goods/create" class="btn btn-default">
+            <span class="glyphicon glyphicon-plus"></span>
+            新商品
+        </a>
+    </h3>
+</div>
+
+<!-- loading message  -->
+<div class="jumbotron text-center" ng-show="good.processing">
+    <span class="glyphicon glyphicon-repeat spinner"></span>
+    <p>加载中...</p>
+</div>
+
+
+
+<table class="table table-bordered table-striped table-condensed" ng-show="good.goods">
+    <p class="input-group col-lg-3">
+        <input type="text" class="form-control" ng-model="query" placeholder="搜索">
+    </p>
+    <thead>
+    <tr>
+        <th class="col-sm-2">编号</th>
+        <th class="col-sm-3">名称</th>
+        <th class="col-sm-1">类别</th>
+        <th class="col-sm-1">品牌</th>
+        <th class="col-sm-1">零售价</th>
+        <th class="col-sm-1">数量</th>
+        <th class="col-sm-1">备注</th>
+        <th class="col-sm-2"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- loop over the users and create a table with ng-repeat -->
+    <tr ng-repeat="thing in good.goods | filter:query">
+        <td>{{ thing.number }}</td>
+        <td>{{ thing.name }}</td>
+        <td>{{ thing.category }}</td>
+        <td>{{ thing.brand }}</td>
+        <td>{{ thing.price1 }}</td>
+        <td>{{ thing.quantity }}</td>
+        <td>{{ thing.comment }}</td>
+
+        <td class="col-sm-2">
+            <a data-target="#{{ thing._id }}" data-toggle="modal" class="btn btn-success">查看</a>
+            <a ng-href="/goods/{{ thing._id }}" class="btn btn-primary">编辑</a>
+            <a href="#" ng-click="good.deleteGood(thing._id)" class="btn btn-danger">删除</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div ng-repeat="thing in good.goods"  id="{{ thing._id }}" class="modal fade">
+    <div  class="modal-dialog" style="width: 980px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">{{ thing.name }}的详细信息</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <fieldset disabled>
+                    <div class="col-lg-5">
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">商品编号</label>
+                            <div class="col-lg-6">
+                                <input ng-model="thing.number" type="text" class="form-control" placeholder="留空可自动生成">
+                            </div>
+                            <div class="col-lg-2" >
+                                <label class="checkbox" for="checkbox1">
+                                    <input type="checkbox" value="" id="checkbox1">
+                                    失效
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">商品名称</label>
+                            <div class="col-lg-8">
+                                <input ng-model="thing.name" type="text" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">商品性质</label>
+                            <div class="col-lg-8"  >
+                                <select ng-model="thing.type" ng-options="value.id as value.title for value in vm.optionsData_type" class="form-control select select-primary" data-toggle="select">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">商品类别</label>
+                            <div class="col-lg-8" >
+                                <select  class="form-control select select-primary" data-toggle="select">
+                                    <option value="{{ thing.category }}">{{ thing.category }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">商品品牌</label>
+                            <div class="col-lg-8" >
+                                <select class="form-control select select-primary" data-toggle="select">
+                                    <option value="{{ thing.brand }}">{{ thing.brand }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">商品成本</label>
+                            <div class="col-lg-8">
+                                <input ng-model="thing.cost" type="number" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">所属仓库</label>
+                            <div class="col-lg-8" ng-controller="good_ngWarehouseSelect">
+                                <select ng-model="thing.warehouse" ng-options="value.id as value.title for value in vm.optionsData" class="form-control select select-primary" data-toggle="select">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">数量</label>
+                            <div class="col-lg-8">
+                                <input ng-model="thing.quantity" type="number" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">供应商</label>
+                            <div class="col-lg-8">
+                                <select  class="form-control select select-primary" data-toggle="select">
+                                    <option value="{{ thing.applier }}">{{ thing.applier }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-4 control-label">备注</label>
+                            <div class="col-lg-8">
+                                <input ng-model="thing.comment" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-7">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">条码设置</div>
+                            <div class="panel-body">
+                                <img class="img-responsive col-lg-6" src="assets/img/code.jpg">
+                            </div>
+                        </div>
+                        <div class="panel panel-success">
+                            <div class="panel-heading">商品分级售价</div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">一级售价</label>
+                                    <div class="col-lg-3">
+                                        <input ng-model="thing.price1" type="number" class="form-control">
+                                    </div>
+
+                                    <label class="col-lg-3 control-label">二级售价</label>
+                                    <div class="col-lg-3">
+                                        <input ng-model="thing.price2" type="number" class="form-control">
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">三级售价</label>
+                                    <div class="col-lg-3">
+                                        <input ng-model="thing.price3" type="number" class="form-control">
+                                    </div>
+                                    <label class="col-lg-3 control-label">四级售价</label>
+                                    <div class="col-lg-3">
+                                        <input ng-model="thing.price4" type="number" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">五级售价</label>
+                                    <div class="col-lg-3">
+                                        <input ng-model="thing.price5" type="number" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        </fieldset>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>

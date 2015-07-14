@@ -1,0 +1,145 @@
+<div class="page-header col-lg-12">
+    <div class="col-lg-2">
+        <h3 ng-if="client.type == 'create'">创建新客户</h3>
+        <h3 ng-if="client.type == 'edit'">编辑客户</h3>
+    </div>
+    <div class="col-lg-6">
+        <div class="row show-hide-message " ng-show="client.message">
+            <div class="col-sm-12">
+                <div class="alert alert-info">
+                    {{ client.message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form class="form-horizontal col-sm-12" ng-submit="client.saveClient()">
+
+        <div class="form-group has-feedback">
+            <label class="col-lg-2 control-label">客户姓名</label>
+            <div class="col-lg-4">
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                <input ng-model="client.clientData.name" type="text" class="form-control" placeholder="客户姓名">
+            </div>
+            <label class="col-lg-2  control-label">生日</label>
+            <div class="col-lg-4 ">
+                <div class="input-group date form_date"  data-date-format="MM dd" data-link-field="dtp_input2" data-link-format="mm-dd">
+                    <input ng-model="client.clientData.birthday" class="form-control"  type="text">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+                <input type="hidden" id="dtp_input2" value="" />
+            </div>
+            </div>
+
+        <div class="form-group has-feedback">
+
+            <label class="col-lg-2 control-label">手机号码</label>
+            <div class="col-lg-4">
+                <span class="glyphicon glyphicon-earphone form-control-feedback"></span>
+                <input ng-model="client.clientData.phone" type="text" class="form-control" placeholder="手机号码">
+            </div>
+            <label class="col-lg-2  control-label">性别</label>
+            <div class="col-lg-4 ">
+
+                    <label class="control-label">
+                        <input ng-model="client.clientData.sex" type="radio" value="female" name="options">女
+                    </label>
+                    <label class="control-label">
+                        <input ng-model="client.clientData.sex" type="radio" value="male" name="options" >男
+                    </label>
+
+            </div>
+        </div>
+
+        <div class="form-group has-feedback">
+            <label class="col-lg-2 control-label">客户类别</label>
+            <div class="col-lg-4" ng-controller="client_ngTypeSelect">
+                <select  ng-options="value.id as value.title for value in vm.optionsData" ng-model="client.clientData.type"  class="form-control">
+                    <option value="">请选择</option>
+                </select>
+            </div>
+            <div ng-controller="client_ngLevelSelect" ng-if="client.clientData.type=='1'">
+                <label class="col-lg-2  control-label">零售级别</label>
+                <div class="col-lg-4 ">
+                    <select ng-model="client.clientData.rlevel" ng-options="value.id as value.title for value in vm.optionsData" class="form-control select select-default" data-toggle="select">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+            </div>
+            <div ng-controller="client_ngLevelSelect" ng-if="client.clientData.type=='2'">
+                <label class="col-lg-2  control-label">批发级别</label>
+                <div class="col-lg-4 ">
+                    <select ng-model="client.clientData.wlevel" ng-options="value.id as value.title for value in vm.optionsData" class="form-control select select-default" data-toggle="select">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group has-feedback">
+            <label class="col-lg-2  control-label">储值金额</label>
+            <div class="col-lg-4 ">
+                <span class="glyphicon glyphicon-usd form-control-feedback"></span>
+                <input ng-model="client.clientData.money" type="number" class="form-control" placeholder="储值金额">
+            </div>
+            <label class="col-lg-2 control-label">积分</label>
+            <div class="col-lg-4">
+                <span class="glyphicon glyphicon-piggy-bank form-control-feedback"></span>
+                <input ng-model="client.clientData.point" type="number" class="form-control" placeholder="积分">
+            </div>
+        </div>
+
+        <div class="form-group has-feedback">
+            <label class="col-lg-2 control-label">公司</label>
+            <div class="col-lg-4">
+                <span class="glyphicon glyphicon-globe form-control-feedback"></span>
+                <input ng-model="client.clientData.company" type="text" class="form-control" placeholder="公司">
+            </div>
+            <label class="col-lg-2 control-label">联系人</label>
+            <div class="col-lg-4">
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                <input ng-model="client.clientData.contact" type="text" class="form-control" placeholder="联系人">
+            </div>
+
+        </div>
+
+        <div class="form-group has-feedback">
+            <label class="col-lg-2  control-label">地址</label>
+            <div class="col-lg-4 ">
+                <span class="glyphicon glyphicon-home form-control-feedback"></span>
+                <input ng-model="client.clientData.address" type="text" class="form-control" placeholder="地址">
+            </div>
+            <label class="col-lg-2 control-label">备注</label>
+            <div class="col-lg-4">
+                <input ng-model="client.clientData.comment" type="text" class="form-control" placeholder="备注">
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-4 col-sm-offset-2">
+            <button type="submit" class="btn btn-success btn-lg btn-block" ng-if="client.type == 'create'">创建客户</button>
+            <button type="submit" class="btn btn-success btn-lg btn-block" ng-if="client.type == 'edit'">更新客户</button>
+        </div>
+    </div>
+
+</form>
+
+<script>
+    $('.form_date').datetimepicker({
+        language:'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 3,
+        minView: 2,
+        forceParse: 1
+    });
+</script>

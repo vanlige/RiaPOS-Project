@@ -1,0 +1,12 @@
+<div class="jumbotron text-center">
+	<h1>欢迎使用RiaPOS!</h1>
+
+	<div ng-if="!main.loggedIn">
+		<p>请登录.</p>
+		<a href="/login" class="btn btn-primary">登录</a>
+	</div>
+
+	<div ng-if="main.loggedIn">
+		<p>加速您的生意.</p>
+	</div>
+</div>

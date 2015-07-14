@@ -1,0 +1,37 @@
+<div class="page-header col-lg-12" >
+    <div class="col-lg-2">
+        <h3 ng-if="goodCate.type == 'create'">创建新类别</h3>
+        <h3 ng-if="goodCate.type == 'edit'">编辑类别</h3>
+    </div>
+    <div class="col-lg-6">
+        <div class="show-hide-message " ng-show="goodCate.message">
+            <div class="alert alert-info">
+                {{ goodCate.message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row col-md-6 col-md-offset-3 text-center">
+
+    <form class="form-horizontal" ng-submit="goodCate.saveGoodCate()">
+        <div class="form-group">
+            <label class="col-md-4 control-label">类别编号</label>
+            <div class="col-md-8">
+                <input ng-model="goodCate.goodCateData.number" type="text" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label">类别名称</label>
+            <div class="col-md-8">
+                <input ng-model="goodCate.goodCateData.name" type="text" class="form-control">
+            </div>
+        </div>
+        <button  ng-if="goodCate.type == 'create'"  type="submit" class="btn btn-success btn-lg col-md-8 col-md-offset-4 ">保存</button>
+        <button  ng-if="goodCate.type == 'edit'" type="submit" class="btn btn-success btn-lg col-md-8 col-md-offset-4">更新</button>
+
+    </form>
+</div>
